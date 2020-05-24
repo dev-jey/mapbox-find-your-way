@@ -39,8 +39,8 @@ setSelected = (id) => {
       selected = origins.childNodes[i];
       selected.classList.remove("selected")
     }
-    if(origins.childNodes[i].className == "origin" && origins.childNodes[i].id == id  && _typ.includes("origin")){
-        origins.childNodes[i].classList.add("selected");
+    if (origins.childNodes[i].className == "origin" && origins.childNodes[i].id == id && _typ.includes("origin")) {
+      origins.childNodes[i].classList.add("selected");
     }
   }
 
@@ -50,9 +50,47 @@ setSelected = (id) => {
       new_selected = destinations.childNodes[j];
       new_selected.classList.remove("selected")
     }
-    if(destinations.childNodes[j].className == "destination" && destinations.childNodes[j].id == id  && _typ.includes("destination")){
+    if (destinations.childNodes[j].className == "destination" && destinations.childNodes[j].id == id && _typ.includes("destination")) {
       destinations.childNodes[j].classList.add("selected");
     }
   }
 }
 
+
+planTrip = () => {
+  selected_origin = document.getElementsByClassName("origin selected");
+
+  selected_destination = document.getElementsByClassName("destination selected");
+  if ((selected_origin && selected_destination) && (selected_origin != selected_destination)) {
+    fetch(`https://api.winnipegtransit.com/v3/trip-planner.json?origin=geo/${selected_origin[0].dataset.lat},${selected_origin[0].dataset.long}&api-key=ZPFv2Zx6ny1KrlPKnfe&destination=geo/${selected_destination[0].dataset.lat},${selected_destination[0].dataset.long}`)
+      .then(res => res.json())
+      .then(data => {
+        all_segs = []
+        data.plans[0].segments.forEach(seg => {
+          if (seg.type == "walk") {
+            if (seg.to) {
+              all_segs.push(`<li>
+                              <i class="fas fa-walking" aria-hidden="true"></i>${seg.type} for ${seg.times.durations.total} minutes to stop #${seg.to.stop && seg.to.stop.key} - ${seg.to.stop && seg.to.stop.name}
+                            </li>`)
+            } else {
+              all_segs.push(`<li>
+                              <i class="fas fa-walking" aria-hidden="true"></i>${seg.type} for ${seg.times.durations.total} minutes to destination
+                            </li>`)
+            }
+          }
+
+          if(seg.type == "ride"){
+            all_segs.push(`
+            <li>
+              <i class="fas fa-bus" aria-hidden="true"></i>${seg.type} the route ${seg.route.name} for ${seg.times.durations.total} minutes
+            </li>`)
+          }
+        })
+
+        document.getElementById("my-trip").innerHTML = all_segs.join("");
+        // console.log(`${seg.type} for ${seg.times.durations.total} to stop #${seg.to.stop.key} - ${seg.to.stop.name}`)
+        // console.log(`${seg1.type} the route ${seg1.route.name} for ${seg1.times.durations.total} minutes`)
+
+      })
+  }
+}
