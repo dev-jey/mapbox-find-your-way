@@ -15,7 +15,7 @@ getMapBoxLocations = (name, _type) => {
     locations.forEach(location => {
       console.log(location)
       location_data = `<li data-long="${location.center[0]}" data-lat="${location.center[1]}" 
-          id="${location.id.split('.')[1]}" onclick="setSelected(${location.id.split('.')[1], _type})">
+          id="${location.id.split('.')[1]}" class="${_type}" onclick="setSelected(${location.id.split('.')[1]})">
           <div class="name">${location && location.place_name.split(',')[0]}</div>
           <div>${location && location.place_name.split(',')[1]}</div>
         </li>`;
@@ -31,20 +31,26 @@ getMapBoxLocations = (name, _type) => {
   });
 }
 
-setSelected = (id, _type) => {
-  if (_type === "origin") {
-    var selected = document.getElementsByClassName("selected origin")[0];
-    if (selected) {
-      selected.classList.remove("selected");
+setSelected = (id) => {
+  var origins = document.getElementById("origins");
+  for (var i = 0; i < origins.childNodes.length; i++) {
+    if (origins.childNodes[i].className == "origin selected") {
+      selected = origins.childNodes[i];
+      selected.classList.remove("selected")
     }
-    var element = document.getElementById(id);
-    element.classList.add("selected origin");
-  } else {
-    var selected = document.getElementsByClassName("selected destination")[0];
-    if (selected) {
-      selected.classList.remove("selected");
+    if(origins.childNodes[i].id == id){
+        origins.childNodes[i].classList.add("selected");
     }
-    var element = document.getElementById(id);
-    element.classList.add("selected destination");
+  }
+
+  var origins = document.getElementById("destinations");
+  for (var i = 0; i < origins.childNodes.length; i++) {
+    if (origins.childNodes[i].className == "destination selected") {
+      selected = origins.childNodes[i];
+      selected.classList.remove("selected")
+    }
+    if(origins.childNodes[i].id == id){
+        origins.childNodes[i].classList.add("selected");
+    }
   }
 }
