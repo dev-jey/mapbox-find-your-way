@@ -14,9 +14,9 @@ getMapBoxLocations = (name, _type) => {
     all_locations = [];
     locations.forEach(location => {
       location_data = `<li data-long="${location.center[0]}" data-lat="${location.center[1]}" 
-          id="${location.id.split('.')[1]}" class="${_type}" name="${_type}" onclick="setSelected(${location.id.split('.')[1]})">
-          <div class="name">${location && location.place_name.split(',')[0]}</div>
-          <div>${location && location.place_name.split(',')[1]}</div>
+          id="${location.id.split('.')[1]}" class="${_type}" onclick="setSelected(${location.id.split('.')[1]})">
+          <div class="name ${_type}">${location && location.place_name.split(',')[0]}</div>
+          <div class="${_type}">${location && location.place_name.split(',')[1]}</div>
         </li>`;
       all_locations.push(location_data);
     });
@@ -31,26 +31,28 @@ getMapBoxLocations = (name, _type) => {
 }
 
 setSelected = (id) => {
-  console.log(event.target)
+  _typ = event.target.className;
   var origins = document.getElementById("origins");
+
   for (var i = 0; i < origins.childNodes.length; i++) {
-    if (origins.childNodes[i].className == "origin selected") {
+    if (origins.childNodes[i].className == "origin selected" && _typ.includes("origin")) {
       selected = origins.childNodes[i];
       selected.classList.remove("selected")
     }
-    if(origins.childNodes[i].className == "origin" && origins.childNodes[i].id == id){
+    if(origins.childNodes[i].className == "origin" && origins.childNodes[i].id == id  && _typ.includes("origin")){
         origins.childNodes[i].classList.add("selected");
     }
   }
 
   var destinations = document.getElementById("destinations");
   for (var j = 0; j < destinations.childNodes.length; j++) {
-    if (destinations.childNodes[j].className == "destination selected") {
+    if (destinations.childNodes[j].className == "destination selected" && _typ.includes("destination")) {
       new_selected = destinations.childNodes[j];
       new_selected.classList.remove("selected")
     }
-    if(destinations.childNodes[j].className == "origin" && destinations.childNodes[j].id == id){
+    if(destinations.childNodes[j].className == "destination" && destinations.childNodes[j].id == id  && _typ.includes("destination")){
       destinations.childNodes[j].classList.add("selected");
     }
   }
 }
+
