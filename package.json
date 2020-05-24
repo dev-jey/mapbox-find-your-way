@@ -1,0 +1,19 @@
+{
+  "name": "final-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/damibiu1/DanielBiu-final_project.git"
+  },
+  "author": "damibiu1",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/damibiu1/DanielBiu-final_project/issues"
+  },
+  "homepage": "https://github.com/damibiu1/DanielBiu-final_project#readme"
+}
