@@ -13,18 +13,38 @@ getMapBoxLocations = (name, _type) => {
     locations = data.features;
     all_locations = [];
     locations.forEach(location => {
-      location_data = `<li data-long="${location.center[0]}" data-lat="${location.center[1]}" class="selected">
+      console.log(location)
+      location_data = `<li data-long="${location.center[0]}" data-lat="${location.center[1]}" 
+          id="${location.id.split('.')[1]}" onclick="setSelected(${location.id.split('.')[1], _type})">
           <div class="name">${location && location.place_name.split(',')[0]}</div>
           <div>${location && location.place_name.split(',')[1]}</div>
         </li>`;
       all_locations.push(location_data);
     });
     if (_type == "origin") {
-      document.getElementById("origins").innerHTML = all_locations;
+      document.getElementById("origins").innerHTML = all_locations.join("");
     } else {
-      document.getElementById("destinations").innerHTML = all_locations;
+      document.getElementById("destinations").innerHTML = all_locations.join("");
     }
   }).catch((error) => {
     console.log(error)
   });
+}
+
+setSelected = (id, _type) => {
+  if (_type === "origin") {
+    var selected = document.getElementsByClassName("selected origin")[0];
+    if (selected) {
+      selected.classList.remove("selected");
+    }
+    var element = document.getElementById(id);
+    element.classList.add("selected origin");
+  } else {
+    var selected = document.getElementsByClassName("selected destination")[0];
+    if (selected) {
+      selected.classList.remove("selected");
+    }
+    var element = document.getElementById(id);
+    element.classList.add("selected destination");
+  }
 }
