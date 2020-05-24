@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/damibiu1/DanielBiu-final_project/issues"
   },
-  "homepage": "https://github.com/damibiu1/DanielBiu-final_project#readme"
+  "homepage": "https://github.com/damibiu1/DanielBiu-final_project#readme",
+  "devDependencies": {
+    "gulp": "^4.0.2"
+  }
 }
