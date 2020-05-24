@@ -26,7 +26,6 @@ getMapBoxLocations = (name, _type) => {
       document.getElementById("destinations").innerHTML = all_locations.join("");
     }
   }).catch((error) => {
-    console.log(error)
   });
 }
 
@@ -67,7 +66,6 @@ planTrip = () => {
       .then(data => {
         all_segs = []
         data.plans[0].segments.forEach(seg => {
-          console.log(seg.type)
           if (seg.type == "walk") {
             if (seg.to) {
               all_segs.push(`<li>
@@ -96,9 +94,6 @@ planTrip = () => {
         })
 
         document.getElementById("my-trip").innerHTML = all_segs.join("");
-        // console.log(`${seg.type} for ${seg.times.durations.total} to stop #${seg.to.stop.key} - ${seg.to.stop.name}`)
-        // console.log(`${seg1.type} the route ${seg1.route.name} for ${seg1.times.durations.total} minutes`)
-
       })
   }
 }
