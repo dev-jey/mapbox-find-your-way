@@ -1,15 +1,30 @@
-mapBoxLink =(name)=> {return `https://api.mapbox.com/geocoding/v5/mapbox.places/${name}.json?access_token=pk.eyJ1Ijoiam9obmF0aGFubml6aW9sIiwiYSI6ImNqcG5oZjR0cDAzMnEzeHBrZGUyYmF2aGcifQ.7vAuGZ0z6CY0kXYDkcaOBg&limit=10&bbox=-97.325875,49.766204,-96.953987,49.99275`}
+mapBoxLink = (name) => { return `https://api.mapbox.com/geocoding/v5/mapbox.places/${name}.json?access_token=pk.eyJ1Ijoiam9obmF0aGFubml6aW9sIiwiYSI6ImNqcG5oZjR0cDAzMnEzeHBrZGUyYmF2aGcifQ.7vAuGZ0z6CY0kXYDkcaOBg&limit=10&bbox=-97.325875,49.766204,-96.953987,49.99275` }
 getOrigin = () => {
   let origin = document.getElementById("origin").value;
-  getMapBoxLocations(origin);
+  getMapBoxLocations(origin, 'origin');
 }
 getDestination = () => {
   let destination = document.getElementById("destination").value;
-  getMapBoxLocations(destination);
+  getMapBoxLocations(destination, 'destination');
 }
 
-getMapBoxLocations = (name) => {
-  fetch(mapBoxLink(name)).then((res)=>{
-    console.log(res)
-  })
+getMapBoxLocations = (name, _type) => {
+  fetch(mapBoxLink(name)).then(res => res.json()).then((data) => {
+    locations = data.features;
+    all_locations = [];
+    locations.forEach(location => {
+      location_data = `<li data-long="${location.center[0]}" data-lat="${location.center[1]}" class="selected">
+          <div class="name">${location && location.place_name.split(',')[0]}</div>
+          <div>${location && location.place_name.split(',')[1]}</div>
+        </li>`;
+      all_locations.push(location_data);
+    });
+    if (_type == "origin") {
+      document.getElementById("origins").innerHTML = all_locations;
+    } else {
+      document.getElementById("destinations").innerHTML = all_locations;
+    }
+  }).catch((error) => {
+    console.log(error)
+  });
 }
