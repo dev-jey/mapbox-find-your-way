@@ -67,13 +67,13 @@ planTrip = () => {
         all_segs = []
         data.plans[0].segments.forEach(seg => {
           if (seg.type == "walk") {
-            if (seg.to) {
+            if (seg.to.stop) {
               all_segs.push(`<li>
                               <i class="fas fa-walking" aria-hidden="true"></i>${seg.type} for ${seg.times.durations.total} minutes to stop #${seg.to.stop && seg.to.stop.key} - ${seg.to.stop && seg.to.stop.name}
                             </li>`)
             } else {
               all_segs.push(`<li>
-                              <i class="fas fa-walking" aria-hidden="true"></i>${seg.type} for ${seg.times.durations.total} minutes to destination
+                              <i class="fas fa-walking" aria-hidden="true"></i>${seg.type} for ${seg.times.durations.total} minutes to your destination
                             </li>`)
             }
           }
@@ -81,7 +81,7 @@ planTrip = () => {
           if(seg.type == "ride"){
             all_segs.push(`
             <li>
-              <i class="fas fa-bus" aria-hidden="true"></i>${seg.type} the route ${seg.route.name} for ${seg.times.durations.total} minutes
+              <i class="fas fa-bus" aria-hidden="true"></i>${seg.type} the ${seg.route.name || seg.route.key} for ${seg.times.durations.total} minutes
             </li>`)
           }
 
