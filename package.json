@@ -17,6 +17,14 @@
   },
   "homepage": "https://github.com/damibiu1/DanielBiu-final_project#readme",
   "devDependencies": {
-    "gulp": "^4.0.2"
+    "@babel/core": "^7.9.6",
+    "@babel/preset-env": "^7.9.6",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0"
+  },
+  "dependencies": {
+    "gulp-clean-css": "^4.3.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-sourcemaps": "^2.6.5"
   }
 }
