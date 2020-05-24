@@ -13,9 +13,8 @@ getMapBoxLocations = (name, _type) => {
     locations = data.features;
     all_locations = [];
     locations.forEach(location => {
-      console.log(location)
       location_data = `<li data-long="${location.center[0]}" data-lat="${location.center[1]}" 
-          id="${location.id.split('.')[1]}" class="${_type}" onclick="setSelected(${location.id.split('.')[1]})">
+          id="${location.id.split('.')[1]}" class="${_type}" name="${_type}" onclick="setSelected(${location.id.split('.')[1]})">
           <div class="name">${location && location.place_name.split(',')[0]}</div>
           <div>${location && location.place_name.split(',')[1]}</div>
         </li>`;
@@ -32,25 +31,26 @@ getMapBoxLocations = (name, _type) => {
 }
 
 setSelected = (id) => {
+  console.log(event.target)
   var origins = document.getElementById("origins");
   for (var i = 0; i < origins.childNodes.length; i++) {
     if (origins.childNodes[i].className == "origin selected") {
       selected = origins.childNodes[i];
       selected.classList.remove("selected")
     }
-    if(origins.childNodes[i].id == id){
+    if(origins.childNodes[i].className == "origin" && origins.childNodes[i].id == id){
         origins.childNodes[i].classList.add("selected");
     }
   }
 
-  var origins = document.getElementById("destinations");
-  for (var i = 0; i < origins.childNodes.length; i++) {
-    if (origins.childNodes[i].className == "destination selected") {
-      selected = origins.childNodes[i];
-      selected.classList.remove("selected")
+  var destinations = document.getElementById("destinations");
+  for (var j = 0; j < destinations.childNodes.length; j++) {
+    if (destinations.childNodes[j].className == "destination selected") {
+      new_selected = destinations.childNodes[j];
+      new_selected.classList.remove("selected")
     }
-    if(origins.childNodes[i].id == id){
-        origins.childNodes[i].classList.add("selected");
+    if(destinations.childNodes[j].className == "origin" && destinations.childNodes[j].id == id){
+      destinations.childNodes[j].classList.add("selected");
     }
   }
 }
